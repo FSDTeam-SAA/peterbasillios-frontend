@@ -34,8 +34,9 @@ const links = [
 export default function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
-  const useDarkNavbar =
-    pathname.startsWith("/services") || pathname.startsWith("/contact");
+  const usesImageHero =
+    pathname === "/" || pathname === "/about" || pathname.startsWith("/about/");
+  const useDarkNavbar = !usesImageHero;
   const isActiveLink = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
