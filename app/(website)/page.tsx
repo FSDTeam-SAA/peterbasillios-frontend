@@ -13,7 +13,6 @@ export default function HomePage() {
       <ProjectsSection />
       <BuildCard/>
       <WhyChoose/>
-     
     </main>
   );
 }
