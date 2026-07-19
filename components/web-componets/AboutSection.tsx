@@ -71,18 +71,28 @@ export default function AboutSection() {
 
   return (
     <motion.section
-      className="overflow-hidden py-16 sm:py-20 lg:py-32"
+      className="overflow-hidden bg-[#F4FAFA] py-14 sm:py-20 lg:bg-transparent lg:py-32"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.32 }}
       variants={sectionVariants}
     >
-      <div className="w-[1096px] mx-auto px-4 sm:px-6 lg:px-5">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+      <div className="mx-auto w-full max-w-[1096px] px-4 sm:px-6 lg:px-5">
+        <div className="grid items-center gap-10 md:gap-14 lg:grid-cols-2 lg:gap-12">
           {/* Left Content */}
-          <motion.div className="mx-auto max-w-xl text-center lg:mx-0 lg:max-w-md lg:text-left" variants={fadeUp}>
+          <motion.div
+            className="mx-auto max-w-xl text-center lg:mx-0 lg:max-w-md lg:text-left"
+            variants={fadeUp}
+          >
+            <motion.p
+              className="mx-auto mb-4 w-fit rounded-full border border-[#B8D8D5] bg-white px-4 py-2 text-sm font-medium text-[#007066] shadow-[0_14px_34px_rgba(0,112,102,0.08)] lg:hidden"
+              variants={fadeUp}
+            >
+              Family craft since 1985
+            </motion.p>
+
             <motion.h2
-              className="text-3xl font-medium !leading-[120%] text-[#000000] sm:text-4xl md:text-[40px]"
+              className="text-[34px] font-medium !leading-[115%] text-[#000000] sm:text-4xl md:text-[44px] lg:text-[40px] lg:!leading-[120%]"
               variants={fadeUp}
             >
               Built on Heritage.
@@ -91,7 +101,7 @@ export default function AboutSection() {
             </motion.h2>
 
             <motion.p
-              className="mt-6 !text-[16px] font-normal leading-8 text-[#595959] sm:mt-8"
+              className="mx-auto mt-5 max-w-lg !text-[16px] font-normal leading-8 text-[#595959] sm:mt-7 lg:mx-0"
               variants={fadeUp}
             >
               Wood Talks is the second generation of a family business
@@ -99,7 +109,7 @@ export default function AboutSection() {
             </motion.p>
 
             <motion.p
-              className="mt-4 text-[16px] font-normal leading-8 text-[#595959]"
+              className="mx-auto mt-4 max-w-lg text-[16px] font-normal leading-8 text-[#595959] lg:mx-0"
               variants={fadeUp}
             >
               Today we combine traditional craftsmanship with advanced
@@ -108,12 +118,14 @@ export default function AboutSection() {
             </motion.p>
 
             <motion.div
-              className="mx-auto mt-8 w-fit sm:mt-10 lg:mx-0"
+              className="mx-auto mt-8 w-full max-w-xs sm:mt-10 lg:mx-0 lg:w-fit lg:max-w-none"
               variants={fadeUp}
-              whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }}
+              whileHover={
+                shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }
+              }
               whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
             >
-              <Button className="h-[52px] !rounded-[999px] bg-[#007066] px-8 text-base font-medium text-white hover:bg-[#095A54]">
+              <Button className="h-[52px] w-full !rounded-[999px] bg-[#007066] px-8 text-base font-medium text-white shadow-[0_18px_40px_rgba(0,112,102,0.2)] hover:bg-[#095A54] lg:w-auto lg:shadow-none">
                 Our Story
                 <Image
                   src="/star.png"
@@ -128,12 +140,13 @@ export default function AboutSection() {
 
           {/* Image */}
           <motion.div
-            className="mx-auto flex w-full flex-col items-center justify-center gap-8 sm:flex-row lg:gap-14"
+            className="mx-auto grid w-full max-w-[520px] items-center gap-5 sm:max-w-2xl sm:grid-cols-[minmax(0,305px)_auto] sm:justify-center sm:gap-7 lg:max-w-none lg:grid-cols-[305px_auto] lg:gap-14"
             variants={fadeUp}
           >
             <motion.div
-              className="relative h-[360px] w-full max-w-[305px] overflow-hidden rounded-2xl shadow-[0_28px_80px_rgba(0,112,102,0.18)] sm:h-[405px] sm:w-[305px]"
+              className="relative h-[390px] w-full overflow-hidden rounded-lg bg-white shadow-[0_28px_80px_rgba(0,112,102,0.18)] ring-1 ring-white sm:h-[405px] sm:w-[305px]"
               animate={shouldReduceMotion ? undefined : { y: [0, -10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
               whileHover={shouldReduceMotion ? undefined : { scale: 1.025 }}
             >
               <Image
@@ -148,12 +161,10 @@ export default function AboutSection() {
             {/* Right Counter */}
             <motion.div
               ref={counterRef}
-              className="relative text-center sm:pl-7 sm:text-left"
+              className="relative rounded-lg border border-[#C7DEDC] bg-white px-6 py-5 text-center shadow-[0_18px_45px_rgba(0,112,102,0.1)] sm:pl-7 sm:text-left lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none"
               variants={fadeUp}
             >
-            
-
-              <span className="text-2xl font-normal text-[#595959] sm:text-3xl">
+              <span className="text-xl font-normal text-[#595959] sm:text-2xl lg:text-3xl">
                 Years of
                 <br />
                 Heritage
@@ -165,8 +176,6 @@ export default function AboutSection() {
               >
                 {heritageYears}+
               </motion.h3>
-
-            
             </motion.div>
           </motion.div>
         </div>

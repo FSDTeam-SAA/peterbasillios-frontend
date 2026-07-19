@@ -137,20 +137,20 @@ export default function ServicesList() {
   };
 
   return (
-    <section className="bg-[#F4FAFA] px-4 pb-16 sm:pb-20 lg:pb-28">
+    <section className="bg-[#F4FAFA] px-4 pb-14 sm:pb-20 lg:pb-28">
       <div className="container mx-auto ">
-        <div className="space-y-12 sm:space-y-14 lg:space-y-16">
+        <div className="space-y-10 sm:space-y-14 lg:space-y-16">
           {services.map((service) => (
             <motion.article
               key={service.title}
-              className="grid items-center gap-7 md:grid-cols-2 md:gap-12 lg:gap-[90px]"
+              className="grid items-center gap-5 rounded-lg bg-white p-3 shadow-[0_16px_45px_rgba(0,112,102,0.08)] md:grid-cols-2 md:gap-8 md:p-4 lg:gap-[90px] lg:bg-transparent lg:p-0 lg:shadow-none"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.25 }}
               variants={rowVariants}
             >
               <motion.div
-                className={`relative h-[220px] overflow-hidden rounded-md sm:h-[270px] lg:h-[464px] ${
+                className={`relative h-[210px] overflow-hidden rounded-md sm:h-[270px] lg:h-[464px] ${
                   service.reverse ? "md:order-2" : ""
                 } ${
                   service.highlight
@@ -176,27 +176,30 @@ export default function ServicesList() {
                 variants={rowVariants}
               >
                 <motion.h2
-                  className="text-2xl font-normal leading-tight text-[#000000] sm:text-4xl"
+                  className="text-[24px] font-normal leading-tight text-[#000000] sm:text-3xl lg:text-4xl"
                   variants={fadeUp}
                 >
                   {service.title}
                 </motion.h2>
 
                 <motion.p
-                  className="mt-5  text-sm leading-6 text-[#595959] sm:text-xl sm:leading-7"
+                  className="mt-3 text-[13px] leading-6 text-[#595959] sm:mt-4 sm:text-base sm:leading-7 md:text-lg lg:mt-5 lg:text-xl"
                   variants={fadeUp}
                 >
                   {service.description}
                 </motion.p>
 
-                <motion.ul className="mt-4 space-y-2" variants={rowVariants}>
+                <motion.ul
+                  className="mt-4 grid grid-cols-2 gap-2 md:block md:space-y-2"
+                  variants={rowVariants}
+                >
                   {service.points.map((point) => (
                     <motion.li
                       key={point}
-                      className="flex items-center gap-2 text-sm text-[#595959] sm:text-xl"
+                      className="flex items-start gap-2 rounded-md bg-[#F4FAFA] px-2 py-2 text-[12px] leading-5 text-[#595959] sm:text-sm md:bg-transparent md:px-0 md:py-0 md:text-base lg:text-xl"
                       variants={bulletReveal}
                     >
-                      <CircleCheck className="h-4 w-4 shrink-0 text-[#595959]" />
+                      <CircleCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#007066] sm:h-4 sm:w-4 md:text-[#595959]" />
                       <span>{point}</span>
                     </motion.li>
                   ))}

@@ -6,6 +6,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
   const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+  const highlights = ["Since 1985", "Custom Built", "Digital Precision"];
   const scrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({
       behavior: shouldReduceMotion ? "auto" : "smooth",
@@ -29,14 +30,13 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-[620px] overflow-hidden sm:min-h-[720px] lg:min-h-[760px]">
+    <section className="relative h-full overflow-hidden sm:min-h-[720px] lg:min-h-[760px]">
       {/* Background */}
 
       <motion.div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-[position:58%_center] sm:bg-center"
         style={{
-          backgroundImage:
-            "url('/hero.png')",
+          backgroundImage: "url('/hero.png')",
         }}
         initial={shouldReduceMotion ? false : { opacity: 0, scale: 1.08 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -47,16 +47,18 @@ export default function Hero() {
       />
 
       <motion.div
-        className="absolute inset-0 bg-black/35"
+        className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/75 sm:bg-black/35"
         initial={shouldReduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: shouldReduceMotion ? 0 : 0.9 }}
       />
 
+      {/* <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/45 to-transparent sm:hidden" /> */}
+
       {/* Content */}
 
       <motion.div
-        className="container relative z-10 mx-auto flex min-h-[620px] items-center px-4 py-24 sm:min-h-[720px] sm:px-6 sm:py-32 lg:min-h-[760px] lg:px-0 lg:py-40"
+        className="container relative z-10 mx-auto flex  items-end px-4 pb-12 pt-28 sm:min-h-[720px] sm:items-center sm:px-6 sm:py-32 lg:min-h-[760px] lg:px-0 lg:py-40"
         initial="hidden"
         animate="visible"
         transition={{
@@ -64,9 +66,23 @@ export default function Hero() {
           delayChildren: shouldReduceMotion ? 0 : 0.25,
         }}
       >
-        <div className="max-w-3xl">
+        <div className="w-full max-w-3xl">
+          <motion.div
+            className="mb-5 flex flex-wrap gap-2 sm:hidden"
+            variants={fadeUp}
+          >
+            {highlights.map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-white/25 bg-white/14 px-3 py-1 text-xs font-medium text-white shadow-[0_10px_30px_rgba(0,0,0,0.16)] backdrop-blur-md"
+              >
+                {item}
+              </span>
+            ))}
+          </motion.div>
+
           <motion.h1
-            className="text-[42px] font-normal leading-[1.05] text-[#FFFEFC] sm:text-6xl md:text-[72px] lg:text-[80px]"
+            className="text-[40px] font-normal leading-[120%] text-[#FFFEFC] sm:text-6xl sm:leading-[1.05] md:text-[72px] lg:text-[80px]"
             variants={fadeUp}
           >
             Premium Custom
@@ -75,7 +91,7 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            className="mt-5 max-w-[610px] text-base leading-7 text-[#FFFEFC] sm:text-lg sm:leading-8"
+            className="mt-5 max-w-[610px] text-[15px] leading-7 text-[#FFFEFC]/95 sm:text-lg sm:leading-8"
             variants={fadeUp}
           >
             We transform residential and commercial spaces with
@@ -84,23 +100,20 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            className="mt-8 sm:mt-10"
+            className="mt-8 w-full sm:mt-10 sm:w-fit"
             variants={fadeUp}
             whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }}
             whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-            
           >
             <Button
               onClick={scrollToProjects}
-              className="h-[50px] rounded-full bg-white px-7 text-base font-normal text-[#007066] hover:bg-[#007066] hover:text-white sm:h-[52px] sm:px-10"
+              className="h-[52px] w-full rounded-full bg-white px-7 text-base font-normal text-[#007066] shadow-[0_18px_45px_rgba(0,0,0,0.24)] hover:bg-[#007066] hover:text-white sm:h-[52px] sm:w-auto sm:px-10"
             >
               View Our Projects
             </Button>
           </motion.div>
         </div>
       </motion.div>
-
-      
     </section>
   );
 }

@@ -69,16 +69,16 @@ export default function CraftedPurpose() {
 
   return (
     <motion.section
-      className="overflow-hidden pb-14 md:pb-20"
+      className="overflow-hidden pb-12 md:pb-20"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.18 }}
       variants={sectionVariants}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-5">
-        <div className="grid overflow-hidden  lg:grid-cols-2">
+        <div className="grid overflow-hidden rounded-lg shadow-[0_20px_60px_rgba(0,112,102,0.1)] lg:grid-cols-2 lg:rounded-none lg:shadow-none">
           <motion.div
-            className="relative min-h-[280px] overflow-hidden sm:min-h-[360px] lg:min-h-[450px]"
+            className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-[450px]"
             variants={imageReveal}
           >
             <Image
@@ -91,21 +91,21 @@ export default function CraftedPurpose() {
           </motion.div>
 
           <motion.div
-            className="flex min-h-[280px] items-center bg-[#007066] px-7 py-10 text-white sm:min-h-[360px] sm:px-10 lg:px-12"
+            className="flex min-h-[250px] items-center bg-[#007066] px-5 py-8 text-white sm:min-h-[320px] sm:px-8 lg:px-12"
             variants={fadeUp}
           >
             <div className="">
-              <h2 className="text-3xl font-normal leading-tight sm:text-4xl">
+              <h2 className="text-[30px] font-normal leading-tight sm:text-4xl">
                 Crafted with{" "}
                 <span className="italic font-light">Purpose</span>
               </h2>
 
-              <p className="mt-6 text-sm leading-7 text-[#D7D7D7] sm:text-base">
+              <p className="mt-5 text-[13px] leading-6 text-[#D7D7D7] sm:text-base sm:leading-7">
                 We believe exceptional cabinetry begins with thoughtful design,
                 precision engineering, and uncompromising attention to detail.
               </p>
 
-              <p className="mt-4 text-sm leading-7 text-[#D7D7D7] sm:text-base">
+              <p className="mt-3 text-[13px] leading-6 text-[#D7D7D7] sm:mt-4 sm:text-base sm:leading-7">
                 Every project is built to reflect the unique lifestyle of our
                 clients while maintaining the highest standards of quality.
               </p>
@@ -113,32 +113,32 @@ export default function CraftedPurpose() {
           </motion.div>
 
           <motion.div
-            className="flex min-h-[340px] items-center bg-[#E6F1F0] px-7 py-10 sm:min-h-[360px] sm:px-10 lg:px-12"
+            className="flex min-h-[300px] items-center bg-[#E6F1F0] px-5 py-8 sm:min-h-[340px] sm:px-8 lg:px-12"
             variants={fadeUp}
           >
             <div className="">
-              <h2 className="text-3xl font-normal leading-tight text-[#000000] sm:text-4xl">
+              <h2 className="text-[30px] font-normal leading-tight text-[#000000] sm:text-4xl">
                 Precision{" "}
                 <span className="italic font-light">Manufacturing</span>
               </h2>
 
-              <p className="mt-6 text-sm leading-7 text-[#454545] sm:text-base">
+              <p className="mt-5 text-[13px] leading-6 text-[#454545] sm:text-base sm:leading-7">
                 Our 1000 sqm production facility combines skilled craftsmanship
                 with advanced CNC technology to ensure every cabinet is
                 manufactured with exceptional accuracy and consistency.
               </p>
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="mt-5 grid grid-cols-2 gap-2 sm:gap-3">
                 {features.map((item) => {
                   const Icon = item.icon;
 
                   return (
                     <div
                       key={item.label}
-                      className="flex min-h-10 items-center gap-3 rounded-md bg-[#D9EAE8] px-3 text-sm font-normal text-[#000000] sm:text-xl"
+                      className="flex min-h-10 items-center gap-2 rounded-md bg-[#D9EAE8] px-2 text-[12px] font-normal leading-tight text-[#000000] sm:gap-3 sm:px-3 sm:text-sm lg:text-xl"
                     >
                       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-[#007B70] text-white">
-                        <Icon className="h-4 w-4" />
+                        <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       </span>
                       <span>{item.label}</span>
                     </div>
@@ -149,7 +149,7 @@ export default function CraftedPurpose() {
           </motion.div>
 
           <motion.div
-            className="relative min-h-[280px] overflow-hidden sm:min-h-[360px] lg:min-h-[450px]"
+            className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-[450px]"
             variants={imageReveal}
           >
             <Image

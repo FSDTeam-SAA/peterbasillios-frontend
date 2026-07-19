@@ -100,7 +100,7 @@ export default function WhatWeBuild() {
 
   return (
     <motion.section
-      className="overflow-hidden py-14 sm:py-16 lg:py-24"
+      className="overflow-hidden py-12 sm:py-16 lg:py-24"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.24 }}
@@ -108,25 +108,28 @@ export default function WhatWeBuild() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         {/* Heading */}
-        <motion.div className="mb-10 text-center sm:mb-14 lg:mb-16" variants={fadeUp}>
+        <motion.div
+          className="mb-8 text-center sm:mb-14 lg:mb-16"
+          variants={fadeUp}
+        >
           <motion.h2
-            className="text-4xl font-normal leading-tight text-[#000000] sm:text-5xl md:text-6xl lg:text-7xl"
+            className="text-[34px] font-normal leading-tight text-[#000000] sm:text-5xl md:text-6xl lg:text-7xl"
             variants={fadeUp}
           >
-            What We <span className="italic  font-light">Build</span>
+            What We <span className="italic font-light">Build</span>
           </motion.h2>
         </motion.div>
 
         {/* Cards */}
         <motion.div
-          className="grid gap-10 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-8"
+          className="grid grid-cols-2 gap-3 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-2 lg:gap-8 xl:grid-cols-4"
           variants={sectionVariants}
         >
           {items.map((item, index) => (
             <motion.article
               key={item.id}
-              className={`group flex flex-col border-l border-gray-300 pl-4 sm:pl-5 ${
-                index % 2 === 1 ? "lg:pt-20" : ""
+              className={`group flex flex-col rounded-md bg-[#F4FAFA] p-2 shadow-[0_14px_35px_rgba(0,112,102,0.08)] sm:border-l sm:border-gray-300 sm:bg-transparent sm:p-0 sm:pl-5 sm:shadow-none ${
+                index % 2 === 1 ? "xl:pt-20" : ""
               }`}
               variants={cardVariants}
               whileHover={
@@ -139,16 +142,18 @@ export default function WhatWeBuild() {
               whileTap={shouldReduceMotion ? undefined : { scale: 0.99 }}
             >
               {/* Number */}
-              <span className="text-base text-[#595959]">{item.id}</span>
+              <span className="text-[11px] font-medium text-[#007066] sm:text-base sm:text-[#595959]">
+                {item.id}
+              </span>
 
               {/* Title */}
-              <h3 className="mt-1 text-xl font-medium leading-tight text-[#000000] sm:text-2xl">
+              <h3 className="mt-1 min-h-[38px] text-[15px] font-medium leading-tight text-[#000000] sm:min-h-0 sm:text-2xl">
                 {item.title}
               </h3>
 
               {/* Image */}
               <motion.div
-                className="relative mt-4 aspect-[4/3] overflow-hidden rounded-lg"
+                className="relative mt-3 aspect-[4/3] overflow-hidden rounded-md sm:mt-4 sm:rounded-lg"
                 variants={imageVariants}
               >
                 <Image
@@ -160,7 +165,7 @@ export default function WhatWeBuild() {
               </motion.div>
 
               {/* Description */}
-              <p className="mt-4 text-sm font-normal leading-6 text-[#595959] sm:mt-5 sm:text-base sm:leading-7">
+              <p className="mt-3 line-clamp-3 text-[12px] font-normal leading-5 text-[#595959] sm:mt-5 sm:line-clamp-none sm:text-base sm:leading-7">
                 {item.description}
               </p>
 
@@ -168,7 +173,7 @@ export default function WhatWeBuild() {
               <motion.button
                 type="button"
                 aria-label={`View ${item.title}`}
-                className="mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-[#2CA6A4] text-[#2CA6A4] transition-all duration-300 hover:bg-[#2CA6A4] hover:text-white sm:mt-6"
+                className="mt-4 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#2CA6A4] shadow-sm transition-all duration-300 hover:bg-[#2CA6A4] hover:text-white sm:mt-6 sm:h-11 sm:w-11 sm:border sm:border-[#2CA6A4] sm:bg-transparent sm:shadow-none"
                 whileHover={
                   shouldReduceMotion
                     ? undefined
@@ -179,7 +184,7 @@ export default function WhatWeBuild() {
                 }
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
               >
-                <ArrowRight className="h-5 w-5" />
+                <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
               </motion.button>
             </motion.article>
           ))}
