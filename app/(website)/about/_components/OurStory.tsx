@@ -103,7 +103,7 @@ export default function OurStory() {
 
   return (
     <motion.section
-      className="overflow-hidden py-14 md:py-20"
+      className="overflow-hidden py-12 md:py-20"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.22 }}
@@ -112,8 +112,8 @@ export default function OurStory() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-5">
         {/* Heading */}
 
-        <motion.div className="mb-12 text-center md:mb-16" variants={fadeUp}>
-          <h2 className="text-5xl font-light text-black sm:text-6xl md:text-7xl">
+        <motion.div className="mb-9 text-center md:mb-16" variants={fadeUp}>
+          <h2 className="text-[40px] font-light leading-tight text-black sm:text-6xl md:text-7xl">
             Our <span className="italic font-normal">Story</span>
           </h2>
         </motion.div>
@@ -125,7 +125,7 @@ export default function OurStory() {
 
           <motion.div className="lg:col-span-5" variants={imageReveal}>
             <motion.div
-              className="relative h-[320px] w-full overflow-hidden rounded-2xl shadow-[0_24px_70px_rgba(0,112,102,0.16)] sm:h-[420px] lg:h-[543px]"
+              className="relative h-[280px] w-full overflow-hidden rounded-lg shadow-[0_24px_70px_rgba(0,112,102,0.16)] sm:h-[420px] lg:h-[543px] lg:rounded-2xl"
               whileHover={shouldReduceMotion ? undefined : { scale: 1.015 }}
             >
               <Image
@@ -141,7 +141,7 @@ export default function OurStory() {
           {/* Timeline */}
 
           <motion.div
-            className="space-y-8 sm:space-y-4 lg:col-span-7"
+            className="space-y-7 sm:space-y-4 lg:col-span-7"
             variants={sectionVariants}
           >
             {timeline.map((item, index) => (
@@ -172,11 +172,11 @@ export default function OurStory() {
                   <Circle size={18} className="fill-white text-[#B0D3D0]" />
                 </motion.span>
 
-                <h3 className="text-xl font-medium text-[#000000] sm:text-2xl">
+                <h3 className="text-lg font-medium leading-tight text-[#000000] sm:text-2xl">
                   {item.title}
                 </h3>
 
-                <p className="mt-2 text-sm !leading-[155%] text-[#454545] sm:text-base">
+                <p className="mt-2 text-[13px] !leading-[165%] text-[#454545] sm:text-base sm:!leading-[155%]">
                   {item.description}
                 </p>
               </motion.div>
@@ -191,13 +191,13 @@ export default function OurStory() {
         {/* Bottom Stats */}
 
         <motion.div
-          className="flex flex-col items-center gap-6  pt-8 sm:gap-8 lg:flex-row lg:justify-center lg:gap-[200px]"
+          className="grid gap-4 pt-8 sm:grid-cols-2 sm:gap-5 lg:flex lg:justify-center lg:gap-[200px]"
           variants={sectionVariants}
         >
           {/* Experience */}
           <motion.div
             ref={counterRef}
-            className="flex w-full max-w-[260px] items-center gap-3 sm:max-w-sm sm:gap-5 lg:w-auto"
+            className="flex w-full items-center gap-3 rounded-lg bg-[#F4FAFA] p-4 shadow-[0_14px_35px_rgba(0,112,102,0.08)] sm:max-w-sm sm:gap-5 lg:w-auto lg:bg-transparent lg:p-0 lg:shadow-none"
             variants={fadeUp}
             whileHover={shouldReduceMotion ? undefined : { y: -6 }}
           >
@@ -218,7 +218,7 @@ export default function OurStory() {
 
           {/* Projects */}
           <motion.div
-            className="flex w-full max-w-[260px] items-center gap-3 sm:max-w-lg sm:gap-5 lg:w-auto"
+            className="flex w-full items-center gap-3 rounded-lg bg-[#F4FAFA] p-4 shadow-[0_14px_35px_rgba(0,112,102,0.08)] sm:max-w-lg sm:gap-5 lg:w-auto lg:bg-transparent lg:p-0 lg:shadow-none"
             variants={fadeUp}
             whileHover={shouldReduceMotion ? undefined : { y: -6 }}
           >

@@ -84,7 +84,10 @@ export default function Footer() {
       variants={containerVariants}
     >
       {/* Logo */}
-      <motion.div className="border-b border-gray-200 py-10" variants={fadeUp}>
+      <motion.div
+        className="border-b border-gray-200 py-8 sm:py-10"
+        variants={fadeUp}
+      >
         <div className="container mx-auto flex justify-center px-5">
           {/* Replace with your logo */}
           <motion.div
@@ -96,37 +99,42 @@ export default function Footer() {
               alt="Wood Talks"
               width={260}
               height={70}
-              className="h-auto w-[220px] md:w-[260px]"
+              className="h-auto w-[190px] sm:w-[220px] md:w-[260px]"
             />
           </motion.div>
         </div>
       </motion.div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-12 sm:px-6 sm:py-14 lg:px-5 ">
+      <div className="container mx-auto px-4 py-10 sm:px-6 sm:py-14 lg:px-5 ">
         <motion.div
           className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_.8fr_1fr] lg:gap-12"
           variants={containerVariants}
         >
           {/* Left */}
-          <motion.div className="text-center sm:col-span-2 sm:text-left lg:col-span-1" variants={fadeUp}>
-            <h2 className="text-3xl font-light text-black sm:text-4xl">
+          <motion.div
+            className="text-center sm:col-span-2 sm:text-left lg:col-span-1"
+            variants={fadeUp}
+          >
+            <h2 className="text-[30px] font-light leading-tight text-black sm:text-4xl">
               Get Active Updates
             </h2>
 
-            <p className="mx-auto mt-5 max-w-md text-base leading-7 text-[#504E4B] sm:mx-0 sm:mt-6 sm:text-lg sm:leading-8">
+            <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-[#504E4B] sm:mx-0 sm:mt-6 sm:text-lg sm:leading-8">
               We look forward to collaborating on your next
               project. Get in touch with us today.
             </p>
 
             <motion.div
-              className="mx-auto mt-7 w-fit sm:mx-0 sm:mt-8"
-              whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }}
+              className="mx-auto mt-7 w-full max-w-xs sm:mx-0 sm:mt-8 sm:w-fit sm:max-w-none"
+              whileHover={
+                shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }
+              }
               whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
             >
               <Link
                 href="/contact"
-                className="inline-flex h-14 items-center justify-center rounded-full bg-[#006D68] px-8 text-white transition hover:bg-[#007066]"
+                className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#006D68] px-8 text-sm text-white transition hover:bg-[#007066] sm:h-14 sm:w-auto sm:text-base"
               >
                 Contact Us
               </Link>
@@ -134,7 +142,10 @@ export default function Footer() {
           </motion.div>
 
           {/* Navigation */}
-          <motion.div className="space-y-4 text-center sm:space-y-5 sm:text-left" variants={fadeUp}>
+          <motion.div
+            className="grid grid-cols-2 gap-3 text-center sm:block sm:space-y-5 sm:text-left"
+            variants={fadeUp}
+          >
             {navLinks.map((item) => (
               <motion.div
                 key={item.title}
@@ -143,7 +154,7 @@ export default function Footer() {
               >
                 <Link
                   href={item.href}
-                  className={`block text-base transition hover:text-[#007066] sm:text-lg ${
+                  className={`block rounded-full bg-white px-3 py-2 text-sm transition hover:text-[#007066] sm:bg-transparent sm:px-0 sm:py-0 sm:text-lg ${
                     isActiveLink(item.href)
                       ? "text-[#007066]"
                       : "text-gray-700"
@@ -157,7 +168,7 @@ export default function Footer() {
 
           {/* Contact */}
           <motion.div className="text-center sm:text-left" variants={fadeUp}>
-            <div className="space-y-4 text-sm leading-6 text-gray-700 sm:space-y-5 sm:text-base">
+            <div className="space-y-3 text-[13px] leading-6 text-gray-700 sm:space-y-5 sm:text-base">
               <p>+201227001558</p>
 
               <p>Info@Woodtalks.Net</p>
@@ -170,7 +181,7 @@ export default function Footer() {
               <p>Qanater Al Khairiya, Egypt</p>
             </div>
 
-            <div className="mt-8 flex items-center justify-center gap-4 sm:justify-start">
+            <div className="mt-7 flex items-center justify-center gap-3 sm:mt-8 sm:justify-start sm:gap-4">
               {socials.map((social, index) => {
                 const Icon = social.icon;
 
@@ -190,9 +201,9 @@ export default function Footer() {
                       aria-label={social.label}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex h-11 w-11 items-center justify-center rounded-full bg-[#E4EFEF] text-[#006D68] transition hover:bg-[#006D68] hover:text-white"
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-[#E4EFEF] text-[#006D68] transition hover:bg-[#006D68] hover:text-white sm:h-11 sm:w-11"
                     >
-                      <Icon className="h-5 w-5" aria-hidden="true" />
+                      <Icon className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
                     </Link>
                   </motion.div>
                 );
@@ -203,9 +214,9 @@ export default function Footer() {
       </div>
 
       {/* Bottom */}
-      <motion.div className="border-t border-gray-200 py-6" variants={fadeUp}>
+      <motion.div className="border-t border-gray-200 py-5 sm:py-6" variants={fadeUp}>
         <div className="container mx-auto px-5">
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-xs text-gray-500 sm:text-sm">
             © All rights reserved wood talks
           </p>
         </div>

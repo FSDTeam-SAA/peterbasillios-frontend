@@ -175,20 +175,20 @@ export default function ProjectsSection() {
 
   return (
     <div id="projects">
-      <section className="py-14 sm:py-16 lg:hidden">
+      <section className="py-12 sm:py-16 lg:hidden">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mb-7 flex flex-col gap-5 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="mb-2 text-base text-muted-foreground">
+              <p className="mb-2 text-sm font-medium text-[#007066] sm:text-base sm:text-muted-foreground">
                 Our projects
               </p>
 
-              <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-[#000000] sm:text-4xl">
+              <h2 className="max-w-2xl text-[30px] font-semibold leading-tight text-[#000000] sm:text-4xl">
                 Custom Cabinetry for Every Space
               </h2>
             </div>
 
-            <Button className="h-[50px] w-fit !rounded-[999px] bg-[#007066] px-7 text-base font-medium text-white hover:bg-[#095A54]">
+            <Button className="h-12 w-full max-w-xs !rounded-[999px] bg-[#007066] px-7 text-sm font-medium text-white shadow-[0_18px_40px_rgba(0,112,102,0.18)] hover:bg-[#095A54] sm:h-[50px] sm:w-fit sm:max-w-none sm:text-base sm:shadow-none">
               All Projects
               <Image
                 src="/star.png"
@@ -200,11 +200,11 @@ export default function ProjectsSection() {
             </Button>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
             {projects.map((project) => (
               <article
                 key={project.count}
-                className="overflow-hidden rounded-2xl bg-white shadow-[0_18px_55px_rgba(0,0,0,0.12)] ring-1 ring-black/5"
+                className="overflow-hidden rounded-lg bg-white shadow-[0_18px_55px_rgba(0,0,0,0.1)] ring-1 ring-black/5 sm:rounded-2xl"
               >
                 <div className="relative aspect-[16/11] overflow-hidden">
                   <Image
@@ -216,16 +216,16 @@ export default function ProjectsSection() {
                   />
                 </div>
 
-                <div className="p-5">
+                <div className="p-4 sm:p-5">
                   <p className="mb-2 text-sm text-neutral-500">
                     {project.count}
                   </p>
 
-                  <h3 className="line-clamp-2 text-2xl font-semibold leading-tight text-neutral-950">
+                  <h3 className="line-clamp-2 text-xl font-semibold leading-tight text-neutral-950 sm:text-2xl">
                     {project.title}
                   </h3>
 
-                  <p className="mt-4 line-clamp-3 text-sm leading-6 text-neutral-500">
+                  <p className="mt-3 line-clamp-3 text-[13px] leading-6 text-neutral-500 sm:mt-4 sm:text-sm">
                     {project.description}
                   </p>
                 </div>

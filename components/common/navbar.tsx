@@ -34,6 +34,7 @@ const links = [
 export default function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const usesImageHero =
     pathname === "/" || pathname === "/about" || pathname.startsWith("/about/");
   const useDarkNavbar = !usesImageHero;
@@ -74,7 +75,7 @@ export default function Navbar() {
               alt="Logo"
               width={1000}
               height={1000}
-              className="h-[32px] w-[271px]"
+              className="h-[18px] w-[160px] sm:h-[20px] sm:w-[180px] lg:h-[32px] lg:w-[271px]"
             />
           </Link>
 
@@ -118,7 +119,10 @@ export default function Navbar() {
           {/* Mobile */}
 
           <div className="lg:hidden">
-            <Sheet>
+            <Sheet
+              open={isSheetOpen}
+              onOpenChange={(open) => setIsSheetOpen(open)}
+            >
               <SheetTrigger
                 render={
                   <Button
@@ -135,11 +139,15 @@ export default function Navbar() {
                 <Menu />
               </SheetTrigger>
 
-              <SheetContent side="right" className="w-[82vw] max-w-[360px] p-6">
-                <div className="mt-10 flex flex-col gap-6">
+              <SheetContent
+                side="right"
+                className="w-[82vw] max-w-[360px] bg-white p-5 sm:p-6"
+              >
+                <div className="mt-9 flex flex-col gap-5 sm:mt-10 sm:gap-6">
                   <Link
                     href="/"
-                    className="text-2xl font-light tracking-wide text-[#006D68]"
+                    onClick={() => setIsSheetOpen(false)}
+                    className="text-[22px] font-light tracking-wide text-[#006D68] sm:text-2xl"
                   >
                     <span className="text-teal-500">W</span>OOD TALKS
                   </Link>
@@ -148,7 +156,8 @@ export default function Navbar() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`border-b border-gray-100 pb-3 text-lg transition hover:text-[#007066] ${
+                      onClick={() => setIsSheetOpen(false)}
+                      className={`rounded-md border border-gray-100 px-3 py-3 text-base transition hover:text-[#007066] sm:border-0 sm:border-b sm:px-0 sm:text-lg ${
                         isActiveLink(item.href)
                           ? "text-[#007066]"
                           : "text-gray-700"
@@ -158,9 +167,13 @@ export default function Navbar() {
                     </Link>
                   ))}
 
-                  <Button className="mt-3 h-12 rounded-full bg-[#006D68] text-white hover:bg-[#095A54]">
+                  <Link
+                    href="/contact"
+                    onClick={() => setIsSheetOpen(false)}
+                    className="mt-2 inline-flex h-12 items-center justify-center rounded-full bg-[#006D68] text-sm font-medium text-white transition hover:bg-[#095A54]"
+                  >
                     Get In Touch
-                  </Button>
+                  </Link>
                 </div>
               </SheetContent>
             </Sheet>

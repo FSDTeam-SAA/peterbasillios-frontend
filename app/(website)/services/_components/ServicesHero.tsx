@@ -34,21 +34,21 @@ export default function ServicesHero() {
 
   return (
     <motion.section
-      className="bg-[#F4FAFA] px-4 pb-16 pt-28 text-center sm:pb-20 sm:pt-32 lg:pb-24"
+      className="bg-[#F4FAFA] px-4 pb-14 pt-28 text-center sm:pb-20 sm:pt-32 lg:pb-24"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
     >
       <motion.div className="container mx-auto" variants={containerVariants}>
         <motion.h1
-          className="text-5xl font-normal leading-tight text-[#000000] sm:text-6xl lg:text-[80px]"
+          className="text-[40px] font-normal leading-tight text-[#000000] sm:text-6xl lg:text-[80px]"
           variants={fadeUp}
         >
           Our Services
         </motion.h1>
 
         <motion.p
-          className="mx-auto mt-5 max-w-[854px] text-base font-normal leading-7 text-[#595959] sm:text-2xl"
+          className="mx-auto mt-4 max-w-[854px] text-[15px] font-normal leading-7 text-[#595959] sm:mt-5 sm:text-lg md:text-xl lg:text-2xl"
           variants={fadeUp}
         >
           Discover bespoke cabinetry solutions designed, manufactured, and

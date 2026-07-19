@@ -196,7 +196,7 @@ export default function ProjectGallery() {
   };
 
   return (
-    <section className="py-16">
+    <section className="py-12 sm:py-16">
       <div className="container mx-auto px-4">
         {galleries.map((gallery, galleryIndex) => (
           <motion.div
@@ -209,10 +209,10 @@ export default function ProjectGallery() {
           >
             {/* Header */}
             <motion.div
-              className="mb-7 flex items-center justify-between"
+              className="mb-5 flex items-center justify-between sm:mb-7"
               variants={fadeUp}
             >
-              <h2 className="text-xl md:text-[32px] font-normal text-[#000000] !tracking-[1%] ">
+              <h2 className="text-lg font-normal leading-tight text-[#000000] !tracking-[1%] sm:text-2xl md:text-[32px]">
                 {gallery.title}
               </h2>
             </motion.div>
@@ -264,7 +264,7 @@ export default function ProjectGallery() {
                         alt={`${gallery.title} ${i + 1}`}
                         width={600}
                         height={420}
-                        className="h-[258px] w-full object-cover transition duration-500 group-hover:scale-105"
+                        className="h-[210px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[236px] lg:h-[258px]"
                       />
                     </motion.button>
                   </CarouselItem>
@@ -272,12 +272,12 @@ export default function ProjectGallery() {
               </CarouselContent>
 
               <motion.div
-                className="mt-6 flex justify-end gap-3"
+                className="mt-5 flex justify-end gap-2 sm:mt-6 sm:gap-3"
                 variants={fadeUp}
               >
-                <CarouselPrevious className="static h-10 w-10 translate-y-0 rounded-full border border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white" />
+                <CarouselPrevious className="static h-9 w-9 translate-y-0 rounded-full border border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white sm:h-10 sm:w-10" />
 
-                <CarouselNext className="static h-10 w-10 translate-y-0 rounded-full border border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white" />
+                <CarouselNext className="static h-9 w-9 translate-y-0 rounded-full border border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white sm:h-10 sm:w-10" />
               </motion.div>
             </Carousel>
           </motion.div>
