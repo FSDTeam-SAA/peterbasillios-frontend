@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Search } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -101,12 +101,7 @@ export default function Navbar() {
           {/* Right */}
 
           <div className="hidden items-center gap-6 lg:flex">
-            <Search
-              className={`cursor-pointer ${
-                useDarkNavbar ? "text-black" : "text-white"
-              }`}
-              size={20}
-            />
+          
 
             <Button
               variant="outline"
