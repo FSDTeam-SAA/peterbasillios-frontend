@@ -29,17 +29,17 @@ const socials = [
   {
     icon: FaFacebookF,
     label: "Facebook",
-    href: "#",
-  },
-  {
-    icon: FaLinkedinIn,
-    label: "LinkedIn",
-    href: "#",
+    href: "https://www.facebook.com/WoodTalksEg",
   },
   {
     icon: FaInstagram,
     label: "Instagram",
-    href: "#",
+    href: "https://www.instagram.com/woodtalks.eg/",
+  },
+  {
+    icon: FaLinkedinIn,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/woodtalks/?viewAsMember=true",
   },
 ];
 
@@ -188,6 +188,8 @@ export default function Footer() {
                     <Link
                       href={social.href}
                       aria-label={social.label}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex h-11 w-11 items-center justify-center rounded-full bg-[#E4EFEF] text-[#006D68] transition hover:bg-[#006D68] hover:text-white"
                     >
                       <Icon className="h-5 w-5" aria-hidden="true" />

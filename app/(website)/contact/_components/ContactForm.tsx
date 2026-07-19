@@ -27,6 +27,24 @@ const contactItems = [
   },
 ];
 
+const socials = [
+  {
+    icon: FaFacebookF,
+    label: "Facebook",
+    href: "https://www.facebook.com/WoodTalksEg",
+  },
+  {
+    icon: FaInstagram,
+    label: "Instagram",
+    href: "https://www.instagram.com/woodtalks.eg/",
+  },
+  {
+    icon: FaLinkedinIn,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/woodtalks/?viewAsMember=true",
+  },
+];
+
 const SMOOTH_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function ContactForm() {
@@ -135,18 +153,16 @@ export default function ContactForm() {
               </h2>
 
               <div className="mt-4 flex gap-4">
-                {[
-                  { icon: FaFacebookF, label: "Facebook" },
-                  { icon: FaLinkedinIn, label: "LinkedIn" },
-                  { icon: FaInstagram, label: "Instagram" },
-                ].map((social) => {
+                {socials.map((social) => {
                   const Icon = social.icon;
 
                   return (
                     <motion.a
                       key={social.label}
-                      href="#"
+                      href={social.href}
                       aria-label={social.label}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E2F0EF] text-[#007066] transition hover:bg-[#007066] hover:text-white"
                       whileHover={
                         shouldReduceMotion
