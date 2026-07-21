@@ -137,7 +137,7 @@ export default function ServicesList() {
   };
 
   return (
-    <section className="bg-[#F4FAFA] px-4 pb-14 sm:pb-20 lg:pb-28">
+    <section className="bg-[#F4FAFA] px-0 pb-14 sm:pb-20 lg:pb-28">
       <div className="container mx-auto ">
         <div className="space-y-10 sm:space-y-14 lg:space-y-16">
           {services.map((service) => (

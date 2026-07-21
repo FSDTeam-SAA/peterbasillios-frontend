@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   animate,
@@ -125,7 +126,10 @@ export default function AboutSection() {
               }
               whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
             >
-              <Button className="h-[52px] w-full !rounded-[999px] bg-[#007066] px-8 text-base font-medium text-white shadow-[0_18px_40px_rgba(0,112,102,0.2)] hover:bg-[#095A54] lg:w-auto lg:shadow-none">
+              <Button
+                render={<Link href="/about#our-story" />}
+                className="h-[52px] w-full !rounded-[999px] bg-[#007066] px-8 text-base font-medium text-white shadow-[0_18px_40px_rgba(0,112,102,0.2)] hover:bg-[#095A54] lg:w-auto lg:shadow-none"
+              >
                 Our Story
                 <Image
                   src="/star.png"

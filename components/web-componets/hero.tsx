@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
+import Link from "next/link";
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -105,12 +106,14 @@ export default function Hero() {
             whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }}
             whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
           >
+            <Link href="/gallery">
             <Button
               onClick={scrollToProjects}
               className="h-[52px] w-full rounded-full bg-white px-7 text-base font-normal text-[#007066] shadow-[0_18px_45px_rgba(0,0,0,0.24)] hover:bg-[#007066] hover:text-white sm:h-[52px] sm:w-auto sm:px-10"
             >
               View Our Projects
             </Button>
+            </Link>
           </motion.div>
         </div>
       </motion.div>
