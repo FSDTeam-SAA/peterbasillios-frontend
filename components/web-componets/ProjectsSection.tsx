@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const projects = [
   {
@@ -33,6 +34,15 @@ const projects = [
     alt: "Premium door collection showcase",
     description:
       "A curated collection of premium custom door designs showcasing material variation, CNC precision detailing, and modern architectural finishes.",
+  },
+    {
+    count: "04-04",
+    title: "Wood Talks Showroom Experience",
+    bgSrc: "/b5.png",
+    imageSrc: "/b5.png",
+    alt: "Premium door collection showcase",
+    description:
+      "Flagship showroom installation designed to present premium cabinetry systems, materials, and finishes in a curated architectural environment.",
   },
 ];
 
@@ -187,8 +197,10 @@ export default function ProjectsSection() {
                 Custom Cabinetry for Every Space
               </h2>
             </div>
-
-            <Button className="h-12 w-full max-w-xs !rounded-[999px] bg-[#007066] px-7 text-sm font-medium text-white shadow-[0_18px_40px_rgba(0,112,102,0.18)] hover:bg-[#095A54] sm:h-[50px] sm:w-fit sm:max-w-none sm:text-base sm:shadow-none">
+            <Button
+              render={<Link href="/gallery" />}
+              className="h-12 w-full max-w-xs !rounded-[999px] bg-[#007066] px-7 text-sm font-medium text-white shadow-[0_18px_40px_rgba(0,112,102,0.18)] hover:bg-[#095A54] sm:h-[50px] sm:w-fit sm:max-w-none sm:text-base sm:shadow-none"
+            >
               All Projects
               <Image
                 src="/star.png"
@@ -251,7 +263,10 @@ export default function ProjectsSection() {
               </h2>
             </div>
 
-            <Button className="h-[52px] !rounded-[999px] bg-[#007066] px-8 text-base font-medium text-white hover:bg-[#095A54]">
+            <Button
+              render={<Link href="/gallery" />}
+              className="h-[52px] !rounded-[999px] bg-[#007066] px-8 text-base font-medium text-white hover:bg-[#095A54]"
+            >
               All Projects
               <Image
                 src="/star.png"

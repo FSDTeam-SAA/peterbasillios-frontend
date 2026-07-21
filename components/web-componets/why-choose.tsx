@@ -118,7 +118,7 @@ export default function WhyChoose() {
             whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
           >
             <Image
-              src="/why.png"
+              src="/why1.png"
               alt="Kitchen"
               width={1000}
               height={1000}

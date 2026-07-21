@@ -105,6 +105,7 @@ export default function Navbar() {
           
 
             <Button
+              render={<Link href="/contact" />}
               variant="outline"
               className={`rounded-full bg-transparent px-7 ${
                 useDarkNavbar

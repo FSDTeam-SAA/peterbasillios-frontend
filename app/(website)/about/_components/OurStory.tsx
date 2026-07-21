@@ -103,7 +103,8 @@ export default function OurStory() {
 
   return (
     <motion.section
-      className="overflow-hidden py-12 md:py-20"
+      id="our-story"
+      className="scroll-mt-28 overflow-hidden py-12 md:scroll-mt-32 md:py-20"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.22 }}
