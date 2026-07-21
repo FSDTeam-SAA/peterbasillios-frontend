@@ -48,7 +48,7 @@ export default function Hero() {
       />
 
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/75 sm:bg-black/35"
+        className="absolute inset-0 "
         initial={shouldReduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: shouldReduceMotion ? 0 : 0.9 }}
