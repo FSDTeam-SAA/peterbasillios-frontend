@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import {
   AnimatePresence,
@@ -16,80 +17,78 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import ProjectGallerySkeleton from "./ProjectGallerySkeleton";
 
 const SMOOTH_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "";
+const PROJECTS_ENDPOINT = API_BASE_URL
+  ? `${API_BASE_URL}/project`
+  : "/api/v1/project";
 
 type ActiveImage = {
   galleryIndex: number;
   imageIndex: number;
 };
 
-const galleries = [
-  {
-    title: "Luxury Coastal Villa Interiors",
-    images: [
-      "/g1.png",
-      "/g2.png",
-      "/g1.png",
-      "/g2.png",
-      "/g1.png",
-      "/g2.png",
-      "/g1.png",
-    ],
-  },
-  {
-    title: "Minimal White Kitchen Concept",
-    images: [
-      "/g3.png",
-      "/g4.png",
-      "/g3.png",
-      "/g4.png",
-      "/g3.png",
-      "/g4.png",
-      "/g3.png",
-    ],
-  },
-  {
-    title: "Premium Door Collection Showcase",
-    images: [
-      "/g5.png",
-      "/g6.png",
-      "/g5.png",
-      "/g6.png",
-      "/g5.png",
-      "/g6.png",
-      "/g6.png",
-    ],
-  },
-  {
-    title: "Modern Green-Themed Interior Concept",
-    images: [
-      "/g7.png",
-      "/g8.png",
-      "/g7.png",
-      "/g8.png",
-      "/g7.png",
-      "/g8.png",
-      "/g7.png",
-    ],
-  },
-  {
-    title: "High-End Residential Villa Project",
-    images: [
-      "/g9.png",
-      "/g10.png",
-      "/g9.png",
-      "/g10.png",
-      "/g9.png",
-      "/g10.png",
-      "/g9.png",
-    ],
-  },
-];
+type Project = {
+  _id: string;
+  name: string;
+  description: string;
+  image: string[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+type ProjectsResponse = {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+  data: Project[];
+};
+
+const fetchProjects = async (): Promise<ProjectsResponse> => {
+  const response = await fetch(PROJECTS_ENDPOINT);
+  const result = (await response.json()) as ProjectsResponse;
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "Project request failed.");
+  }
+
+  return result;
+};
 
 export default function ProjectGallery() {
   const shouldReduceMotion = useReducedMotion();
   const [activeImage, setActiveImage] = useState<ActiveImage | null>(null);
+
+  const {
+    data: projectsResponse,
+    isError,
+    isPending,
+    refetch,
+  } = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+  });
+
+  const galleries = useMemo(
+    () =>
+      (projectsResponse?.data ?? [])
+        .map((project) => ({
+          id: project._id,
+          title: project.name,
+          description: project.description,
+          images: project.image.filter(Boolean),
+        }))
+        .filter((project) => project.images.length > 0),
+    [projectsResponse?.data]
+  );
 
   const currentGallery =
     activeImage !== null ? galleries[activeImage.galleryIndex] : null;
@@ -98,24 +97,41 @@ export default function ProjectGallery() {
       ? galleries[activeImage.galleryIndex]?.images[activeImage.imageIndex]
       : null;
 
-  const closeLightbox = () => setActiveImage(null);
+  const closeLightbox = useCallback(() => setActiveImage(null), []);
 
-  const showLightboxImage = (direction: -1 | 1) => {
-    setActiveImage((current) => {
-      if (current === null) {
-        return current;
-      }
+  const showLightboxImage = useCallback(
+    (direction: -1 | 1) => {
+      setActiveImage((current) => {
+        if (current === null) {
+          return current;
+        }
 
-      const imageCount = galleries[current.galleryIndex].images.length;
-      const nextImageIndex =
-        (current.imageIndex + direction + imageCount) % imageCount;
+        const imageCount = galleries[current.galleryIndex]?.images.length ?? 0;
 
-      return {
-        ...current,
-        imageIndex: nextImageIndex,
-      };
-    });
-  };
+        if (imageCount === 0) {
+          return null;
+        }
+
+        const nextImageIndex =
+          (current.imageIndex + direction + imageCount) % imageCount;
+
+        return {
+          ...current,
+          imageIndex: nextImageIndex,
+        };
+      });
+    },
+    [galleries]
+  );
+
+  useEffect(() => {
+    if (
+      activeImage !== null &&
+      !galleries[activeImage.galleryIndex]?.images[activeImage.imageIndex]
+    ) {
+      closeLightbox();
+    }
+  }, [activeImage, closeLightbox, galleries]);
 
   useEffect(() => {
     if (activeImage === null) {
@@ -145,7 +161,7 @@ export default function ProjectGallery() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [activeImage]);
+  }, [activeImage, closeLightbox, showLightboxImage]);
 
   const galleryVariants: Variants = {
     hidden: {
@@ -197,92 +213,114 @@ export default function ProjectGallery() {
 
   return (
     <section className="py-12 sm:py-16">
-      <div className="container mx-auto px-4">
-        {galleries.map((gallery, galleryIndex) => (
-          <motion.div
-            key={gallery.title}
-            className="mb-7 last:mb-0"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.22 }}
-            variants={galleryVariants}
-          >
-            {/* Header */}
+      {isPending ? (
+        <ProjectGallerySkeleton />
+      ) : isError ? (
+        <div className="container mx-auto px-4">
+          <div className="rounded-lg bg-white p-6 text-center shadow-[0_16px_45px_rgba(0,112,102,0.08)]">
+            <p className="text-base text-[#595959]">
+              Projects could not be loaded.
+            </p>
+            <button
+              type="button"
+              onClick={() => refetch()}
+              className="mt-5 h-11 rounded-full bg-[#007066] px-7 text-sm font-normal text-white transition hover:bg-[#095A54]"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      ) : galleries.length === 0 ? (
+        <div className="container mx-auto px-4">
+          <div className="rounded-lg bg-white p-6 text-center shadow-[0_16px_45px_rgba(0,112,102,0.08)]">
+            <p className="text-base text-[#595959]">No projects found.</p>
+          </div>
+        </div>
+      ) : (
+        <div className="container mx-auto px-4">
+          {galleries.map((gallery, galleryIndex) => (
             <motion.div
-              className="mb-5 flex items-center justify-between sm:mb-7"
-              variants={fadeUp}
+              key={gallery.id}
+              className="mb-7 last:mb-0"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.22 }}
+              variants={galleryVariants}
             >
-              <h2 className="text-lg font-normal leading-tight text-[#000000] !tracking-[1%] sm:text-2xl md:text-[32px]">
-                {gallery.title}
-              </h2>
-            </motion.div>
-
-            {/* Carousel */}
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-4">
-                {gallery.images.map((image, i) => (
-                  <CarouselItem
-                    key={i}
-                    className="
-                      pl-4
-                      basis-[82%]
-                      sm:basis-1/2
-                      md:basis-1/3
-                      lg:basis-1/4
-                      xl:basis-1/5
-                    "
-                  >
-                    <motion.button
-                      type="button"
-                      aria-label={`Open ${gallery.title} image ${i + 1}`}
-                      className="group block w-full cursor-zoom-in overflow-hidden rounded-md shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
-                      custom={i}
-                      variants={cardVariants}
-                      onClick={() =>
-                        setActiveImage({ galleryIndex, imageIndex: i })
-                      }
-                      whileHover={
-                        shouldReduceMotion
-                          ? undefined
-                          : {
-                              y: -8,
-                              transition: {
-                                duration: 0.28,
-                                ease: SMOOTH_EASE,
-                              },
-                            }
-                      }
-                    >
-                      <Image
-                        src={image}
-                        alt={`${gallery.title} ${i + 1}`}
-                        width={600}
-                        height={420}
-                        className="h-[210px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[236px] lg:h-[258px]"
-                      />
-                    </motion.button>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-
-              <motion.div
-                className="mt-5 flex justify-end gap-2 sm:mt-6 sm:gap-3"
-                variants={fadeUp}
-              >
-                <CarouselPrevious className="static h-9 w-9 translate-y-0 rounded-full border border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white sm:h-10 sm:w-10" />
-
-                <CarouselNext className="static h-9 w-9 translate-y-0 rounded-full border border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white sm:h-10 sm:w-10" />
+              <motion.div className="mb-5 sm:mb-7" variants={fadeUp}>
+                <h2 className="text-lg font-normal leading-tight text-[#000000] !tracking-[1%] sm:text-2xl md:text-[32px]">
+                  {gallery.title}
+                </h2>
+              
               </motion.div>
-            </Carousel>
-          </motion.div>
-        ))}
-      </div>
+
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: gallery.images.length > 1,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-4">
+                  {gallery.images.map((image, i) => (
+                    <CarouselItem
+                      key={`${gallery.id}-${image}-${i}`}
+                      className="
+                        pl-4
+                        basis-[82%]
+                        sm:basis-1/2
+                        md:basis-1/3
+                        lg:basis-1/4
+                        xl:basis-1/5
+                      "
+                    >
+                      <motion.button
+                        type="button"
+                        aria-label={`Open ${gallery.title} image ${i + 1}`}
+                        className="group block w-full cursor-zoom-in overflow-hidden rounded-md shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
+                        custom={i}
+                        variants={cardVariants}
+                        onClick={() =>
+                          setActiveImage({ galleryIndex, imageIndex: i })
+                        }
+                        whileHover={
+                          shouldReduceMotion
+                            ? undefined
+                            : {
+                                y: -8,
+                                transition: {
+                                  duration: 0.28,
+                                  ease: SMOOTH_EASE,
+                                },
+                              }
+                        }
+                      >
+                        <Image
+                          src={image}
+                          alt={`${gallery.title} ${i + 1}`}
+                          width={600}
+                          height={420}
+                          sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 82vw"
+                          className="h-[210px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[236px] lg:h-[258px]"
+                        />
+                      </motion.button>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+
+                <motion.div
+                  className="mt-5 flex justify-end gap-2 sm:mt-6 sm:gap-3"
+                  variants={fadeUp}
+                >
+                  <CarouselPrevious className="static h-9 w-9 translate-y-0 rounded-full border border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white sm:h-10 sm:w-10" />
+
+                  <CarouselNext className="static h-9 w-9 translate-y-0 rounded-full border border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white sm:h-10 sm:w-10" />
+                </motion.div>
+              </Carousel>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       <AnimatePresence>
         {activeImage !== null && currentGallery && currentImage ? (
@@ -346,7 +384,7 @@ export default function ProjectGallery() {
                 </button>
 
                 <motion.div
-                  key={`${currentGallery.title}-${activeImage.imageIndex}`}
+                  key={`${currentGallery.id}-${activeImage.imageIndex}`}
                   className="relative h-[68vh] min-h-[320px] w-full overflow-hidden rounded-md bg-white ring-1 ring-neutral-200"
                   initial={{
                     opacity: shouldReduceMotion ? 1 : 0,
@@ -385,7 +423,7 @@ export default function ProjectGallery() {
               <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
                 {currentGallery.images.map((image, index) => (
                   <button
-                    key={`${image}-${index}`}
+                    key={`${currentGallery.id}-${image}-${index}`}
                     type="button"
                     aria-label={`Show image ${index + 1}`}
                     className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-md border transition ${
