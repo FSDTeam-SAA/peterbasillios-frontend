@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import SmoothScrollProvider from "@/components/provider/SmoothScrollprovider";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "sonner";
+import TanstackQueryProvider from "@/components/provider/TanstackQueryProvider";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -27,10 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn(figtree.variable)}>
       <body className="font-sans antialiased">
-         <NextTopLoader color="#007066" height={3} showSpinner={false} />
-        <SmoothScrollProvider>
-          {children}
-          </SmoothScrollProvider>
+        <NextTopLoader color="#007066" height={3} showSpinner={false} />
+        <TanstackQueryProvider>
+          <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        </TanstackQueryProvider>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

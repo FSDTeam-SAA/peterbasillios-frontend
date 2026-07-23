@@ -1,8 +1,58 @@
 "use client";
 
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Mail, MapPin, Phone, Store } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { toast } from "sonner";
+
+type ContactFormValues = {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  message: string;
+};
+
+type ContactFormErrors = Partial<Record<keyof ContactFormValues, string>>;
+
+const initialFormValues: ContactFormValues = {
+  fullName: "",
+  email: "",
+  phoneNumber: "",
+  message: "",
+};
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phonePattern = /^\+?[0-9\s().-]{7,20}$/;
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "";
+const CONTACT_ENDPOINT = `${API_BASE_URL}/contact`;
+
+const validateContactForm = (values: ContactFormValues) => {
+  const errors: ContactFormErrors = {};
+
+  if (!values.fullName.trim()) {
+    errors.fullName = "Full name is required.";
+  }
+
+  if (!values.email.trim()) {
+    errors.email = "Email is required.";
+  } else if (!emailPattern.test(values.email.trim())) {
+    errors.email = "Enter a valid email address.";
+  }
+
+  if (!values.phoneNumber.trim()) {
+    errors.phoneNumber = "Phone number is required.";
+  } else if (!phonePattern.test(values.phoneNumber.trim())) {
+    errors.phoneNumber = "Enter a valid phone number.";
+  }
+
+  if (!values.message.trim()) {
+    errors.message = "Message is required.";
+  }
+
+  return errors;
+};
 
 const contactItems = [
   {
@@ -49,6 +99,77 @@ const SMOOTH_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function ContactForm() {
   const shouldReduceMotion = useReducedMotion();
+  const [formValues, setFormValues] =
+    useState<ContactFormValues>(initialFormValues);
+  const [errors, setErrors] = useState<ContactFormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const fieldName = event.target.name as keyof ContactFormValues;
+    const { value } = event.target;
+
+    setFormValues((currentValues) => ({
+      ...currentValues,
+      [fieldName]: value,
+    }));
+
+    if (errors[fieldName]) {
+      setErrors((currentErrors) => ({
+        ...currentErrors,
+        [fieldName]: undefined,
+      }));
+    }
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const validationErrors = validateContactForm(formValues);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      toast.error("Please fix the highlighted fields.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const payload: ContactFormValues = {
+        fullName: formValues.fullName.trim(),
+        email: formValues.email.trim(),
+        phoneNumber: formValues.phoneNumber.trim(),
+        message: formValues.message.trim(),
+      };
+
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Contact request failed");
+      }
+
+      toast.success("Message sent successfully.");
+      setFormValues(initialFormValues);
+      setErrors({});
+    } catch {
+      toast.error("Message could not be sent. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const getFieldClassName = (fieldName: keyof ContactFormValues) =>
+    `mt-2 w-full rounded-md border bg-transparent px-3 text-sm text-[#000000] outline-none transition placeholder:text-[#9AA6A4] focus:border-[#007066] sm:mt-3 sm:px-4 sm:text-base ${
+      errors[fieldName] ? "border-red-500" : "border-[#AFC7C5]"
+    }`;
 
   const containerVariants: Variants = {
     hidden: {},
@@ -183,7 +304,11 @@ export default function ContactForm() {
           </motion.div>
 
           <motion.div className="lg:col-span-6" variants={formReveal}>
-            <form className="rounded-lg bg-[#E6F1F0] p-4 shadow-[0_18px_50px_rgba(0,112,102,0.1)] sm:p-8 lg:p-5 lg:shadow-none">
+            <form
+              className="rounded-lg bg-[#E6F1F0] p-4 shadow-[0_18px_50px_rgba(0,112,102,0.1)] sm:p-8 lg:p-5 lg:shadow-none"
+              onSubmit={handleSubmit}
+              noValidate
+            >
               <div className="space-y-4 sm:space-y-5">
                 <label className="block">
                   <span className="text-sm font-medium text-[#000000] sm:text-base">
@@ -191,9 +316,24 @@ export default function ContactForm() {
                   </span>
                   <input
                     type="text"
+                    name="fullName"
                     placeholder="Enter your full name"
-                    className="mt-2 h-12 w-full rounded-md border border-[#AFC7C5] bg-transparent px-3 text-sm text-[#000000] outline-none transition placeholder:text-[#9AA6A4] focus:border-[#007066] sm:mt-3 sm:h-14 sm:px-4 sm:text-base"
+                    value={formValues.fullName}
+                    onChange={handleChange}
+                    aria-invalid={Boolean(errors.fullName)}
+                    aria-describedby={
+                      errors.fullName ? "fullName-error" : undefined
+                    }
+                    className={`${getFieldClassName("fullName")} h-12 sm:h-14`}
                   />
+                  {errors.fullName && (
+                    <p
+                      id="fullName-error"
+                      className="mt-2 text-xs text-red-600 sm:text-sm"
+                    >
+                      {errors.fullName}
+                    </p>
+                  )}
                 </label>
 
                 <label className="block">
@@ -202,9 +342,22 @@ export default function ContactForm() {
                   </span>
                   <input
                     type="email"
+                    name="email"
                     placeholder="Enter your email address"
-                    className="mt-2 h-12 w-full rounded-md border border-[#AFC7C5] bg-transparent px-3 text-sm text-[#000000] outline-none transition placeholder:text-[#9AA6A4] focus:border-[#007066] sm:mt-3 sm:h-14 sm:px-4 sm:text-base"
+                    value={formValues.email}
+                    onChange={handleChange}
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    className={`${getFieldClassName("email")} h-12 sm:h-14`}
                   />
+                  {errors.email && (
+                    <p
+                      id="email-error"
+                      className="mt-2 text-xs text-red-600 sm:text-sm"
+                    >
+                      {errors.email}
+                    </p>
+                  )}
                 </label>
 
                 <label className="block">
@@ -213,29 +366,60 @@ export default function ContactForm() {
                   </span>
                   <input
                     type="tel"
+                    name="phoneNumber"
                     placeholder="Enter your phone number"
-                    className="mt-2 h-12 w-full rounded-md border border-[#AFC7C5] bg-transparent px-3 text-sm text-[#000000] outline-none transition placeholder:text-[#9AA6A4] focus:border-[#007066] sm:mt-3 sm:h-14 sm:px-4 sm:text-base"
+                    value={formValues.phoneNumber}
+                    onChange={handleChange}
+                    aria-invalid={Boolean(errors.phoneNumber)}
+                    aria-describedby={
+                      errors.phoneNumber ? "phoneNumber-error" : undefined
+                    }
+                    className={`${getFieldClassName("phoneNumber")} h-12 sm:h-14`}
                   />
+                  {errors.phoneNumber && (
+                    <p
+                      id="phoneNumber-error"
+                      className="mt-2 text-xs text-red-600 sm:text-sm"
+                    >
+                      {errors.phoneNumber}
+                    </p>
+                  )}
                 </label>
 
                 <label className="block">
                   <span className="text-sm font-medium text-[#000000] sm:text-base">
-                    Massage
+                    Message
                   </span>
                   <textarea
+                    name="message"
                     placeholder="Write your message here..."
                     rows={6}
-                    className="mt-2 w-full resize-none rounded-md border border-[#AFC7C5] bg-transparent px-3 py-3 text-sm text-[#000000] outline-none transition placeholder:text-[#9AA6A4] focus:border-[#007066] sm:mt-3 sm:px-4 sm:py-4 sm:text-base"
+                    value={formValues.message}
+                    onChange={handleChange}
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={
+                      errors.message ? "message-error" : undefined
+                    }
+                    className={`${getFieldClassName("message")} resize-none py-3 sm:py-4`}
                   />
+                  {errors.message && (
+                    <p
+                      id="message-error"
+                      className="mt-2 text-xs text-red-600 sm:text-sm"
+                    >
+                      {errors.message}
+                    </p>
+                  )}
                 </label>
               </div>
 
               <div className="mt-5 flex justify-center">
                 <button
                   type="submit"
-                  className="h-12 w-full rounded-full bg-[#007066] px-10 text-sm font-normal text-white transition hover:bg-[#095A54] sm:h-14 sm:w-auto sm:text-base"
+                  disabled={isSubmitting}
+                  className="h-12 w-full rounded-full bg-[#007066] px-10 text-sm font-normal text-white transition hover:bg-[#095A54] disabled:cursor-not-allowed disabled:opacity-70 sm:h-14 sm:w-auto sm:text-base"
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
               </div>
             </form>
