@@ -58,7 +58,7 @@ const contactItems = [
   {
     icon: Phone,
     label: "Phone",
-    value: "+201227001558",
+    value: "00201227001558",
   },
   {
     icon: Mail,
