@@ -169,9 +169,9 @@ export default function Footer() {
           {/* Contact */}
           <motion.div className="text-center sm:text-left" variants={fadeUp}>
             <div className="space-y-3 text-[13px] leading-6 text-gray-700 sm:space-y-5 sm:text-base">
-              <p>+201227001558</p>
+              <p>00201227001558</p>
 
-              <p>Info@Woodtalks.Net</p>
+              <p>info@woodtalks.net</p>
 
               <p>
                 Dolphin Mall - 6th Of October - Giza

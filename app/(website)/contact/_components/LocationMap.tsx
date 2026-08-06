@@ -1,9 +1,11 @@
+
+
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 const mapSrc =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1728.0155589550632!2d30.955266138866087!3d29.978535693739282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458567ce8fb9235%3A0x14bb0016623178e3!2sFirst%206th%20of%20October%2C%20Giza%20Governorate%203234010%2C%20Egypt!5e0!3m2!1sen!2sbd!4v1784350765451!5m2!1sen!2sbd";
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5257.939161613942!2d30.954080246942695!3d29.976102755950826!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14585753a17d1435%3A0xe79de89bbd2fc631!2sWood%20Talks!5e0!3m2!1sen!2sbd!4v1786006536672!5m2!1sen!2sbd";
 
 const SMOOTH_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
