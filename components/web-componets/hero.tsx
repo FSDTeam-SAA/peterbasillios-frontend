@@ -37,7 +37,7 @@ export default function Hero() {
       <motion.div
         className="absolute inset-0 bg-cover bg-[position:58%_center] sm:bg-center"
         style={{
-          backgroundImage: "url('/hero.png')",
+          backgroundImage: "url('/new.jpeg')",
         }}
         initial={shouldReduceMotion ? false : { opacity: 0, scale: 1.08 }}
         animate={{ opacity: 1, scale: 1 }}
